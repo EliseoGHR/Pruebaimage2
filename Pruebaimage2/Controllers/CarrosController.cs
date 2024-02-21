@@ -56,7 +56,7 @@ namespace Pruebaimage2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarroId,Modelo,Descripcion,Precio,Imagen,MarcaId")] Carro carro, IFormFile imagen)
+        public async Task<IActionResult> Create([Bind("CarroId,Modelo,Descripcion,Precio,MarcaId")] Carro carro, IFormFile imagen)
         {
             if (ModelState.IsValid)
             {
@@ -98,35 +98,60 @@ namespace Pruebaimage2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarroId,Modelo,Descripcion,Precio,Imagen,MarcaId")] Carro carro)
+        public async Task<IActionResult> Edit(int id, [Bind("CarroId,Modelo,Descripcion,Precio,MarcaId")] Carro carro, IFormFile imagen)
         {
             if (id != carro.CarroId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (imagen != null && imagen.Length > 0)
             {
-                try
+                using (var memoryStream = new MemoryStream())
                 {
-                    _context.Update(carro);
-                    await _context.SaveChangesAsync();
+                    await imagen.CopyToAsync(memoryStream);
+                    carro.Imagen = memoryStream.ToArray();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CarroExists(carro.CarroId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(carro);
+                await _context.SaveChangesAsync();
             }
-            ViewData["MarcaId"] = new SelectList(_context.Marcas, "MarcaId", "Nombre", carro.MarcaId);
-            return View(carro);
+            else
+            {
+                var carrofind = await _context.Carros.FirstOrDefaultAsync(s => s.CarroId == carro.CarroId);
+                if (carrofind?.Imagen?.Length > 0)
+                    carro.Imagen = carrofind.Imagen;
+                carrofind.Modelo = carro.Modelo;
+                carrofind.Descripcion = carro.Descripcion;
+                carrofind.Precio = carro.Precio;
+                carrofind.MarcaId = carro.MarcaId;
+                _context.Update(carrofind);
+                await _context.SaveChangesAsync();
+
+            }
+
+            try
+            {
+               
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CarroExists(carro.CarroId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
+            //if (ModelState.IsValid)
+            //{
+               
+            //}
+            //ViewData["MarcaId"] = new SelectList(_context.Marcas, "MarcaId", "Nombre", carro.MarcaId);
+            //return View(carro);
         }
 
         // GET: Carros/Delete/5
