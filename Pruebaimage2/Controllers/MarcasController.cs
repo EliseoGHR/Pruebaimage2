@@ -57,12 +57,9 @@ namespace Pruebaimage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MarcaId,Nombre")] Marca marca)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(marca);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            _context.Add(marca);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
             return View(marca);
         }
 
@@ -94,26 +91,23 @@ namespace Pruebaimage2.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(marca);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MarcaExists(marca.MarcaId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(marca);
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MarcaExists(marca.MarcaId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
             return View(marca);
         }
 

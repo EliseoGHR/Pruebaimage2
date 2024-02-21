@@ -21,6 +21,7 @@ namespace Pruebaimage2.Models
         public byte[]? Imagen { get; set; }
 
         // Propiedad de navegación para la relación con Marca
+        [Display(Name = "Marca")]
         public int? MarcaId { get; set; }
         [ForeignKey("MarcaId")]
         public virtual Marca? Marca { get; set; }

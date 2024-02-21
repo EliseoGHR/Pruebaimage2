@@ -56,10 +56,18 @@ namespace Pruebaimage2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarroId,Modelo,Descripcion,Precio,Imagen,MarcaId")] Carro carro)
+        public async Task<IActionResult> Create([Bind("CarroId,Modelo,Descripcion,Precio,Imagen,MarcaId")] Carro carro, IFormFile imagen)
         {
             if (ModelState.IsValid)
             {
+                if (imagen != null && imagen.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await imagen.CopyToAsync(memoryStream);
+                        carro.Imagen = memoryStream.ToArray();
+                    }
+                }
                 _context.Add(carro);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

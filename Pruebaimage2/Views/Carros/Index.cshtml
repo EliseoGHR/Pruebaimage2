@@ -43,7 +43,20 @@
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Imagen)
+                    @{
+                        string urlBase64 = "";
+                        if (item.Imagen != null && item.Imagen.Length > 0)
+                        {
+                            string base64String = Convert.ToBase64String(item.Imagen);
+                            urlBase64 = "data:image/jpeg;base64," + base64String;
+                        }
+                        else
+                        {
+                            // Si no hay imagen, utilizar una imagen por defecto
+                            urlBase64 = "/image/defecto.png"; // Reemplaza "/images/default-image.jpg" con la ruta de tu imagen por defecto
+                        }
+                    }
+                    <img src="@urlBase64" width="50px" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Marca.Nombre)
