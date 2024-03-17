@@ -1,0 +1,66 @@
+﻿@model Pruebaimage2.Models.Usuario
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1>Edit</h1>
+
+<h4>Usuario</h4>
+<hr />
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="Apellido" class="control-label"></label>
+            <input asp-for="Apellido" class="form-control" />
+            <span asp-validation-for="Apellido" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Estatus" class="control-label"></label>
+            <select asp-for="Estatus" class="form-control">
+                <option value="1">Activo</option>
+                <option value="2">Inactivo</option>
+            </select>
+            <span asp-validation-for="Estatus" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Rol" class="control-label"></label>
+            <select asp-for="Rol" class="form-control">
+                <option value="Administrador">Administrador</option>
+                <option value="Recurso Humanos">Recurso Humanos</option>
+            </select>
+            <span asp-validation-for="Estatus" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label asp-for="Comentario" class="control-label"></label>
+            <textarea asp-for="Comentario" class="form-control"></textarea>
+            <span asp-validation-for="Comentario" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            <input type="submit" value="Editar" class="btn btn-primary" />
+            <a class="btn btn-primary" asp-action="Index">Cancelar</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pruebaimage2.Models;
 
@@ -11,9 +12,10 @@ using Pruebaimage2.Models;
 namespace Pruebaimage2.Migrations
 {
     [DbContext(typeof(Pruebaimage2DbContext))]
-    partial class Pruebaimage2DbContextModelSnapshot : ModelSnapshot
+    [Migration("20240309022842_up4")]
+    partial class up4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

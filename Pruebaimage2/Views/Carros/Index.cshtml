@@ -62,9 +62,10 @@
                 @Html.DisplayFor(modelItem => item.Marca.Nombre)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CarroId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CarroId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CarroId">Delete</a>
+                    <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.CarroId">Edit</a> |
+                    <a asp-action="Details" class="btn btn-info" asp-route-id="@item.CarroId">Details</a> |
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.CarroId">Delete</a>
+                    <a asp-action="DeleteImagen" class="btn btn-warning" asp-route-id="@item.CarroId">Delete Imagen</a>
             </td>
         </tr>
 }

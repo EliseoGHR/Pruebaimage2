@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Pruebaimage2.Models;
 
@@ -7,6 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Pruebaimage2DbContext>(options =>
        options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie((o) =>
+{
+    o.LoginPath = new PathString("/Usuarios/login");
+    o.AccessDeniedPath = new PathString("/Usuarios/login");
+    o.ExpireTimeSpan = TimeSpan.FromHours(8);
+    o.SlidingExpiration = true;
+    o.Cookie.HttpOnly = true;
+});
+
 
 var app = builder.Build();
 
@@ -22,7 +33,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -192,9 +192,19 @@ namespace Pruebaimage2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> DeleteImagen(int? id)
+        {
+            var carrofind = await _context.Carros.FirstOrDefaultAsync(s => s.CarroId == id);
+            carrofind.Imagen = null;
+            _context.Update(carrofind);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
         private bool CarroExists(int id)
         {
-          return (_context.Carros?.Any(e => e.CarroId == id)).GetValueOrDefault();
+            return (_context.Carros?.Any(e => e.CarroId == id)).GetValueOrDefault();
         }
+
+      
     }
 }

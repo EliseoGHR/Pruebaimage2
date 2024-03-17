@@ -45,7 +45,7 @@
                     urlBase64 = "/image/defecto.png"; // Ruta relativa desde la carpeta wwwroot
                 }
             }
-            <img src="@urlBase64" width="150px" height="125px" />
+            <img src="@urlBase64" width="125px" height="100px" />
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Marca)
@@ -56,6 +56,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.CarroId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-success"  asp-route-id="@Model?.CarroId">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
